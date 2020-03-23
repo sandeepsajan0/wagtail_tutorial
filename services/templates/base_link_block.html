@@ -1,0 +1,17 @@
+{% block menu_item %}
+{% load wagtailcore_tags %}
+
+<div class="dropdown">
+    <ul class="dropdown-menu">
+    {% for child in value.children %}
+        <li>
+            <a href="{{ child.link }}">
+                {% include_block child %}
+            </a>
+        </li>
+    {% endfor %}
+    </ul>
+
+</div>
+
+{% endblock %}

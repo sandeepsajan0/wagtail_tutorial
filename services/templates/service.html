@@ -1,0 +1,42 @@
+{% load wagtailimages_tags wagtailcore_tags %}
+<div class="service">
+    {% image value.icon fill-32x32 %}
+    <h2>{{ value.service_name }}</h2>
+    {% if value.intro %}
+        <p>{{ value.intro }}</p>
+    {% endif %}
+
+    {% if value.return %}
+        <p>RETURN
+            {{ value.return }}</p>
+    {% endif %}
+
+    {% if value.sip %}
+        <p>S&P
+            {{ value.sip }}</p>
+    {% endif %}
+
+    {% if value.return_intro %}
+        <p>{{ value.return_intro }}</p>
+    {% endif %}
+    {% if value.features_list %}
+        {% for feature in value.features_list %}
+            {% include_block feature %}
+        {% endfor %}
+    {% endif %}
+    {% if value.price %}
+        <p>{{ value.price }}</p>
+    {% endif %}
+    {% if value.status %}
+        <i>{{ value.status }}</i>
+    {% endif %}
+    {% if value.image_heading %}
+        <p>{{ value.heading }}</p>
+    {% endif %}
+    {% if value.image_intro %}
+        <p>{{ value.image_intro }}</p>
+    {% endif %}
+    {% if value.image %}
+        {% image value.image max-165x165 %}
+    {% endif %}
+</div>

@@ -1,9 +1,11 @@
 from django import forms
 from django.db import models
 from wagtail.core.models import Page, Orderable
-from wagtail.core.fields import RichTextField
-from wagtail.admin.edit_handlers import FieldPanel, InlinePanel, MultiFieldPanel
+from wagtail.core import blocks
+from wagtail.core.fields import RichTextField, StreamField
+from wagtail.admin.edit_handlers import FieldPanel, InlinePanel, MultiFieldPanel, StreamFieldPanel
 from wagtail.search import index
+from wagtail.images.blocks import ImageChooserBlock
 from wagtail.images.edit_handlers import ImageChooserPanel
 from modelcluster.fields import ParentalKey, ParentalManyToManyField
 from modelcluster.contrib.taggit import ClusterTaggableManager
@@ -76,6 +78,11 @@ class BlogPage(Page):
     # set default for previous pages
     author = models.CharField(max_length=250, default="sandeep", blank=False)
     body = RichTextField(blank=True)
+    stream_body = StreamField([
+        ('heading', blocks.CharBlock(classname="full title")),
+        ('paragraph', blocks.RichTextBlock()),
+        ('image', ImageChooserBlock()),
+    ], blank=True, null=True)
     tags = ClusterTaggableManager(through=BlogPageTag, blank=True)
     categories = ParentalManyToManyField("wagtail_blog.BlogCategory", blank=True)
 
@@ -106,6 +113,7 @@ class BlogPage(Page):
         FieldPanel("intro"),
         FieldPanel("author"),
         FieldPanel("body", classname="full"),
+        StreamFieldPanel("stream_body"),
         InlinePanel("gallery_images", label="Gallery images"),
     ]
 
