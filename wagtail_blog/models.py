@@ -11,6 +11,7 @@ from modelcluster.fields import ParentalKey, ParentalManyToManyField
 from modelcluster.contrib.taggit import ClusterTaggableManager
 from taggit.models import TaggedItemBase
 from wagtail.snippets.models import register_snippet
+from wagtail.api import APIField
 
 # Create your models here.
 
@@ -47,7 +48,9 @@ class BlogIndexPage(Page):
         blogpages = self.get_children().live().order_by("-first_published_at")
         context["blogpages"] = blogpages
         return context
-
+    api_fields = [
+        APIField("intro")
+    ]
     content_panels = Page.content_panels + [FieldPanel("intro", classname="full")]
 
 
@@ -98,6 +101,14 @@ class BlogPage(Page):
         index.SearchField("body"),
         index.SearchField("author")
         # index.FilterField("tags"),
+    ]
+    api_fields = [
+        APIField("date"),
+        APIField("intro"),
+        APIField("author"),
+        APIField("body"),
+        APIField("stream_body"),
+        APIField("tags"),
     ]
 
     content_panels = Page.content_panels + [
